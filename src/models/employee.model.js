@@ -44,7 +44,7 @@ const employeeSchema  = new mongoose.Schema({
 
 //METHODS
 employeeSchema.methods.setimgurl = function setimgurl(imagen){
-    this.image = "http://localhost:3000/foto-emp/" + imagen;
+    this.image = "https://vet-api-express.onrender.com/foto-emp/" + imagen;
 }
 
 //TOKEN

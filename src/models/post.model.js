@@ -20,7 +20,7 @@ const postSchema = new mongoose.Schema({
 
 //METHODS
 postSchema.methods.setimgurl = function setimgurl(imagen){
-    this.image = "http://localhost:3000/foto-post/" + imagen;
+    this.image = "https://vet-api-express.onrender.com/foto-post/" + imagen;
 }
 
 module.exports = mongoose.model('Post',postSchema);

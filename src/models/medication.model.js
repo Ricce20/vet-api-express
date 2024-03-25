@@ -56,6 +56,6 @@ const medicationSchema = new mongoose.Schema({
 });
 //METHODS
 medicationSchema.methods.setimgurl = function setimgurl(imagen){
-    this.image = "http://localhost:3000/foto-medical/" + imagen;
+    this.image = "https://vet-api-express.onrender.com/foto-medical/" + imagen;
 }
 module.exports = mongoose.model('Medication', medicationSchema);

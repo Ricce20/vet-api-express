@@ -40,7 +40,7 @@ const ownerSchema = new mongoose.Schema({
 
 //METHODS
 ownerSchema.methods.setimgurl = function setimgurl(imagen){
-    this.image = "http://localhost:3000/foto-own/" + imagen;
+    this.image = "https://vet-api-express.onrender.com/foto-own/" + imagen;
 }
 
 //TOKEN

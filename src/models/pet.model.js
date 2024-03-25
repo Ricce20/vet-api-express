@@ -38,7 +38,7 @@ const petSchema = new mongoose.Schema({
 
 //METHODS
 petSchema.methods.setimgurl = function setimgurl(imagen){
-    this.details.image = "http://localhost:3000/foto-pet/" + imagen;
+    this.details.image = "https://vet-api-express.onrender.com/foto-pet/" + imagen;
 }
 
 module.exports = mongoose.model('Pet',petSchema);

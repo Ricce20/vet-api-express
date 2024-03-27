@@ -56,7 +56,7 @@ async function getIdConsult(req,res){
 async function getConsultForPetId(req,res){
     try {
         const {id} = req.params;
-        let consults = await  Consult.find({petId:id}).sort({date:-1}).populate({path:'petId',select:'details.name specie'}).populate({path:'vetId',select:'name lastName type'});
+        let consults = await  Consult.find({petId:id}).sort({date:-1}).populate({path:'vetId',select:'name lastName type'});
         consults.forEach(consult => {
             consult.toJSON = function(){
                 return{

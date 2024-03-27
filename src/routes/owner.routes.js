@@ -4,7 +4,7 @@ const router = Router();
 //MIDDLEWARES
 const auntentifica = require('../middlewares/autentificajwt');
 //CONTROLLERS
-const {getPetOwnerId} = require('../controllers/pet.controller');
+const {getPetOwnerId, getIdPetForOwner} = require('../controllers/pet.controller');
 const {getProducts,getIdProduct} = require('../controllers/product.controller');
 const {getServicesActived} = require('../controllers/service.controller');
 const { getIdOwner } = require('../controllers/owner.controller');
@@ -17,6 +17,7 @@ const saleC = require('../controllers/sales.controller');
 
 //------------------------------------pets
     router.get('/myPets/:id',auntentifica,getPetOwnerId);
+    router.get('pet/:id',auntentifica,getIdPetForOwner)
     router.get('/consultPet/:id',auntentifica,consultC.getConsultForPetId);
     router.get('/medical_history/:id',auntentifica,medHC.getMedicalH_PetId);
     router.get('/my_tickects/:id',auntentifica,saleC.getSalesForOwnerId);

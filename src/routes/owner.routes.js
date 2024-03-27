@@ -17,7 +17,7 @@ const saleC = require('../controllers/sales.controller');
 
 //------------------------------------pets
     router.get('/myPets/:id',auntentifica,getPetOwnerId);
-    router.get('pet/:id',auntentifica,getIdPetForOwner)
+    router.get('/pet/:id',auntentifica,getIdPetForOwner)
     router.get('/consultPet/:id',auntentifica,consultC.getConsultForPetId);
     router.get('/medical_history/:id',auntentifica,medHC.getMedicalH_PetId);
     router.get('/my_tickects/:id',auntentifica,saleC.getSalesForOwnerId);

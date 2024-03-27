@@ -30,11 +30,10 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({
-    "origin": "https://vet-api-express.onrender.com:10000",
-    "methods": "GET, PUT,POST,DELETE",
-    "preflightContinue":false,
-    "optionsSuccessStatus":204
-  
+    origin: "https://vet-api-express.onrender.com",
+    methods: "GET,PUT,POST,DELETE",
+    preflightContinue: false,
+    optionsSuccessStatus: 204
   },
   {
     "origin": "http://localhost:4200",

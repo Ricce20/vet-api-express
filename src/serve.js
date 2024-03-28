@@ -30,7 +30,7 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({
-  origin: ["http://localhost", "http://localhost:4200"],
+  origin: '*',
   methods: "GET,PUT,POST,DELETE",
   preflightContinue: false,
   optionsSuccessStatus: 204,

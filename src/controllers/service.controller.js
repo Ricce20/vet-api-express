@@ -53,7 +53,7 @@ async function createService(req,res){
 async function updateService(req,res){
     try {
         const {id} = req.params;
-        const {service,description,felino,canino,category} = req.body;
+        const {service,description,felino,canino,category,state} = req.body;
 
         let servi = await Service.findById(id);
 
@@ -66,7 +66,8 @@ async function updateService(req,res){
             description,
             felino,
             canino,
-            category
+            category,
+            state
         },{new:true});
 
         return res.status(200).json({success:'Servicio Actualizado'});

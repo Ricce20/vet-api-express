@@ -38,7 +38,7 @@ async function loginEmployee(req, res) {
         const {name,lastName,type,img} = employee;
         const jwtoken = employee.generadorJWT();
 
-        return res.status(200).json({dataEmp: {name,lastName,type,img,jwtoken}});
+        return res.status(200).json({dataEmp: {_id,name,lastName,type,img,jwtoken}});
     }catch (error) {
         return error instanceof CastError
         ? res.status(400).json({error:"El ID Proporcionada es inválido"})

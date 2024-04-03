@@ -10,7 +10,7 @@ const MedicalEntry = require('../models/medicalEntries.model');
 //FUNCTIONS
 async function getMedicines(req,res){
     try {
-        let medicines = await Medication.find({state:'activo'}).select('_id name description image quantity');
+        let medicines = await Medication.find({state:'activo'}).select('_id medication description image quantity price details.dosage details.dateExpiry details.precautions details.dosageForm details.administrationRoute category species');
 
         return res.status(200).json({medicines});
     } catch (error) {
@@ -33,35 +33,33 @@ async function getIdMedicine(req,res){
     }
 }
 
-async function registerMedicine(req,res){
-    
-        try {
-            const {medication,description,dosageForm,dosage,precautions,dateExpiry,administrationRoute,species, category,price,quantity} = req.body;
-    
-            const newMedication = new Medication({
-                medication,
-                description,
-                details: {
-                    dosageForm,
-                    dosage,
-                    administrationRoute,
-                    precautions,
-                    dateExpiry
-                },
-                species,
-                category,
-                price,
-                quantity
-            });
+async function registerMedicine(req,res){       
+    try { 
+        const {medication,description,dosageForm,dosage,precautions,dateExpiry,administrationRoute,species, category,price,quantity} = req.body;
+        const newMedication = new Medication({
+            medication,
+            description,
+            details: {
+                dosageForm,
+                dosage,
+                administrationRoute,
+                precautions,
+                dateExpiry
+            },
+            species,
+            category,
+            price,
+            quantity
+        });
 
-            if(req.file){
-                const {filename} = req.file;
-                newMedication.setimgurl(filename);
-            }
+        if(req.file){
+            const {filename} = req.file;
+            newMedication.setimgurl(filename);
+        }
 
-            await newMedication.save();
+        await newMedication.save();
 
-            return res.status(201).json({success:'Registro Guardado'});
+        return res.status(201).json({success:'Registro Guardado'});
 
 
     } catch (error) {
@@ -187,11 +185,21 @@ async function entryMedications(req,res){
     }
 }
 
+async function getEntryMedications(req,res){
+    try {
+        let entries = await MedicalEntry.find({}).populate('medicine', 'medication');
+        return res.status(200).json({entries});
+    } catch (error) {
+        return res.status(500).json({error:`Error Encontrado: ${error.message}`});
+    }
+}
+
 module.exports = {
     deleteMedicine,
     getIdMedicine,
     getMedicines,
     updateMedicine,
     registerMedicine,
-    entryMedications
+    entryMedications,
+    getEntryMedications
 }

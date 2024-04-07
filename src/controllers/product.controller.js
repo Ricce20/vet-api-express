@@ -196,7 +196,7 @@ async function productEntries(req,res){
 
 async function getEntries(req,res){
     try {
-        let entries = await ProductEntry.find({});
+        let entries = await ProductEntry.find({}).populate('product', 'product');
         return res.status(200).json({entries});
     } catch (error) {
         return res.status(500).json({error:`Error Encontrado: ${error.message}`});

@@ -6,11 +6,17 @@ const {loginSchema} = require('../schemas/auth.schema');
 //MIDDLEWARES
 const { validateSchema } = require('../middlewares/validator.middleware');
 //CONTROLLERS
-const loginC = require('../controllers/Auth.controller');
+const {login,loginEmployee,loginOwner} = require('../controllers/Auth.controller');
+//LIBS
+const {uploadEmployee} = require('../libs/ImagesUpload');
 
 //LOGINS
-router.post('/login',validateSchema(loginSchema),loginC.login);
-router.get('/loginEmp/:id',loginC.loginEmployee);
-router.get('/loginOwn/:id',loginC.loginOwner);
+router.post('/login',uploadEmployee.none(),validateSchema(loginSchema),login);
+router.get('/loginEmp/:id',loginEmployee);
+router.get('/loginOwn/:id',loginOwner);
+
+
+
+
 
 module.exports = router;

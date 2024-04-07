@@ -8,7 +8,7 @@ const path = require('path')
 //ADMIN FUNCTIONS------------------------------------------------------------------------------
 async function getPets(req,res){
     try {
-        let pets = await Pet.find({state:'activo'}).select('_id details.name details.gender details.health specie owner details.image').populate({path:'owner', select:'name lastName'});
+        let pets = await Pet.find({state:'activo'}).select('_id details.name details.age details.weight details.gender details.health specie owner details.image').populate({path:'owner', select:'name lastName'});
         return res.status(200).json({pets});
     } catch (error) {
         return res.status(500).json({error:`Error Encontrado :${error.message}`});
@@ -44,6 +44,7 @@ async function registerPet(req,res){
                 health,
                 gender,
                 weight,
+                image:'http://localhost:3000/foto-prod/default.jpg'
             },
             specie: specie,
             owner: ownerId
@@ -153,22 +154,21 @@ async function getPetOwnerId(req,res){
     }
 }
 
+
 async function getIdPetForOwner(req,res){
     try {
         const {id} = req.params;
-        let pet = await Pet.findOne({_id:id,state:'activo'});
-        return !pet
-        ?res.status(404).json({message:'Mascota no encontrada'})
-        :res.status(200).json({pet});
+        let pet = await Pet.findOne({_id:id, state:'activo'});
+        return !pet 
+        ? res.status(404).json({message:"Mascota no encontrada"})
+        : res.status(200).json({pet});
 
-    } catch (error) {
-          return error instanceof CastError
-        ? res.status(400).json({error:"El ID del Dueño proporcionado es inválido"})
-        : res.status(500).json({error:`Error Encontrado: ${error.message}`});
-    
+    }catch (error) {
+        return error instanceof CastError
+        ? res.status(400).json({message:"El ID proporcionado es inválido."})
+        : res.status(500).json({error:`Error encontrado: ${error.message}`});
     }
 }
-
 module.exports = {
     getPets,
     getIdPet,

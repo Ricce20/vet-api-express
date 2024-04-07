@@ -7,7 +7,7 @@ const Employee = require('../models/employee.model');
 //--------------------------------------------
 async function getEmployees(req,res){
     try {
-        let employees = await Employee.find({state:'activo'}).select('_id name lastName type image');
+        let employees = await Employee.find({state:'activo'}).select('_id name lastName type phone image').populate('user','email');
         return res.status(200).json({employees});
     } catch (error) {
         return res.status(500).json({error:`Error Encontrado: ${error.message}`});

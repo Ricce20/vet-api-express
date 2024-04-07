@@ -36,7 +36,7 @@ const { uploadPet, uploadProduct,uploadEmployee, uploadOwner,uploadMedical,uploa
 //---------------------------------users
     router.get('/userEmp',auntentifica,userC.getUsers);//exclusivo para admin
     router.get('/user/:id',auntentifica,userC.getIdUser);
-    router.put('/user/:id',auntentifica,validateSchema(updateUserSchema),userC.updateUser);
+    router.put('/user/:id',auntentifica,uploadEmployee.none(),validateSchema(updateUserSchema),userC.updateUser);
     router.delete('/user/:id',auntentifica,userC.deleteUser);
 //----------------------------------employees
 
@@ -56,7 +56,7 @@ const { uploadPet, uploadProduct,uploadEmployee, uploadOwner,uploadMedical,uploa
 
     router.get('/pet',auntentifica,petC.getPets);
     router.get('/pet/:id',auntentifica,petC.getIdPet);
-    router.post('/pet',auntentifica,uploadPet.single('image'),validateSchema(registerPetSchema),petC.registerPet);
+    router.post('/pet',uploadPet.single('image'),validateSchema(registerPetSchema),petC.registerPet);
     router.put('/pet/:id',auntentifica,uploadPet.single('image'),validateSchema(updatePetSchema),petC.updatePet);
     router.delete('/pet/:id',auntentifica,petC.deletePet);
 
@@ -75,8 +75,8 @@ const { uploadPet, uploadProduct,uploadEmployee, uploadOwner,uploadMedical,uploa
 
     router.get('/service',auntentifica,servC.getServices);
     router.get('/service/:id',auntentifica,servC.IdGetService);
-    router.post('/service',auntentifica,validateSchema(R_serviceSchema),servC.createService);
-    router.put('/service/:id',auntentifica,validateSchema(U_serviceSchema),servC.updateService);
+    router.post('/service',auntentifica,uploadProduct.none(),validateSchema(R_serviceSchema),servC.createService);
+    router.put('/service/:id',auntentifica,uploadProduct.none(),validateSchema(U_serviceSchema),servC.updateService);
     router.delete('/service/:id',auntentifica,servC.deleteService);
 
 //---------------------------------------------medications
@@ -87,7 +87,8 @@ const { uploadPet, uploadProduct,uploadEmployee, uploadOwner,uploadMedical,uploa
     router.put('/medication/:id',auntentifica,uploadMedical.single('image'),validateSchema(U_medicationSchema),medC.updateMedicine);
     router.delete('/medication/:id',auntentifica,medC.deleteMedicine);
     //entry-medication
-    router.post('/medication/entry/:id',auntentifica,validateSchema(R_medicationEntrySchema),medC.entryMedications);
+    router.post('/medication/entry/:id',auntentifica,uploadMedical.none(),validateSchema(R_medicationEntrySchema),medC.entryMedications);
+    router.get('/medication-entries',medC.getEntryMedications);
 
 
     //-----------------------------------------post
@@ -102,14 +103,14 @@ const { uploadPet, uploadProduct,uploadEmployee, uploadOwner,uploadMedical,uploa
     router.get('/consult/:id',auntentifica,consultC.getIdConsult);
     router.post('/consult',auntentifica,consultC.registerConsult);
     router.put('/consult/:id',auntentifica,consultC.editConsult);
-
+    router.get('/consult/pet/:id', auntentifica, consultC.getConsultForPetId);
     //------------------------------------------Medical History
     router.get('/medical_history',auntentifica,medHC.getMedicalHostories);
     router.get('/medical_history/:id',auntentifica,medHC.getIdHistory);
     router.post('/medical_history',auntentifica,validateSchema(registerMHSchema),medHC.registerHistory);
     router.put('/medical_history/:id',auntentifica,validateSchema(updateMHSchema),medHC.editHistory);
     router.delete('/medical_history/:id',auntentifica,medHC.deleteHistory);
-
+    router.get('/medical_history/pet/:id', auntentifica, medHC.getMedicalH_PetId);
     //-------------------------------------------Sales
     router.get('/sale',auntentifica,saleC.getSales);
     router.get('/sale/:id',auntentifica,saleC.getIdSale);

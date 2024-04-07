@@ -5,57 +5,54 @@ const path = require('path')
 
 async function getPost(req,res){
     try {
-        let posts = await Post.find();
-      //  let formattedPosts = [];
-      posts.forEach(post => {
-        post.toJSON = function() {
-            return {
-                ...this.toObject(),
-                date: this.date.toLocaleDateString('es-ES', {
-                    day: '2-digit',
-                    month: '2-digit',
-                    year: 'numeric',
-                    hour: 'numeric',
-                    minute: 'numeric'
-                })
-            };
-        };
-    });
+        let posts = await Post.find().sort({date: -1});
+
+        posts.forEach(post=>{
+            post.toJSON = function(){
+                return{
+                    ...this.toObject(),
+                    date:this.date.toLocaleDateString('es-ES',{
+                        day:'2-digit',
+                        month:'2-digit',
+                        year:'numeric',
+                        hour:'numeric',
+                       minute:'numeric'
+                    })
+                }
+            }
+        })
         return res.status(200).json({posts});
     } catch (error) {
         return res.status(500).json({error:error.message});
     }
 }
 
-async function getIdPost(req, res) {
+async function getIdPost(req,res){
     try {
-        const { id } = req.params;
+        const {id} = req.params;
         let post = await Post.findById(id);
-
-        if (!post) {
-            return res.status(404).json({ message: 'Post no encontrado' });
-        }
 
         post.toJSON = function(){
             return{
                 ...this.toObject(),
-                date:this.date.toLocaleDateString('es-ES', {
-                    day: '2-digit',
-                    month: '2-digit',
-                    year: 'numeric',
-                    hour: 'numeric',
-                    minute: 'numeric'
+                date:this.date.toLocaleDateString('es-ES',{
+                    day:'2-digit',
+                    month:'2-digit',
+                    year:'numeric',
+                    hour:'numeric',
+                    minute:'numeric'
                 })
             }
         }
 
-        return res.status(200).json({post});
+        return !post
+        ? res.status(404).json({message:'Post no encontrado'})
+        : res.status(200).json({post});
     } catch (error) {
-        if (error instanceof CastError) {
-            return res.status(400).json({ message: "El ID proporcionado es inválido." });
-        } else {
-            return res.status(500).json({ error: `Error encontrado: ${error.message}` });
-        }
+        return error instanceof CastError
+        ? res.status(400).json({message:"El ID proporcionado es inválido."})
+        : res.status(500).json({error:`Error encontrado: ${error.message}`});
+     
     }
 }
 

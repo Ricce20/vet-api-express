@@ -34,32 +34,33 @@ async function getIdMedicine(req,res){
 }
 
 async function registerMedicine(req,res){       
-    try { 
-        const {medication,description,dosageForm,dosage,precautions,dateExpiry,administrationRoute,species, category,price,quantity} = req.body;
-        const newMedication = new Medication({
-            medication,
-            description,
-            details: {
-                dosageForm,
-                dosage,
-                administrationRoute,
-                precautions,
-                dateExpiry
-            },
-            species,
-            category,
-            price,
-            quantity
-        });
+        try {
+           
+            const {medication,description,dosageForm,dosage,precautions,dateExpiry,administrationRoute,species, category,price,quantity} = req.body;
+            const newMedication = new Medication({
+                medication,
+                description,
+                details: {
+                    dosageForm,
+                    dosage,
+                    administrationRoute,
+                    precautions,
+                    dateExpiry
+                },
+                species,
+                category,
+                price,
+                quantity
+            });
 
-        if(req.file){
-            const {filename} = req.file;
-            newMedication.setimgurl(filename);
-        }
+            if(req.file){
+                const {filename} = req.file;
+                newMedication.setimgurl(filename);
+            }
 
-        await newMedication.save();
+            await newMedication.save();
 
-        return res.status(201).json({success:'Registro Guardado'});
+            return res.status(201).json({success:'Registro Guardado'});
 
 
     } catch (error) {
@@ -183,6 +184,9 @@ async function entryMedications(req,res){
         ? res.status(400).json({error:"El ID del Medicamento  proporcionada es inválido"})
         : res.status(500).json({error:`Error encontrado: ${error.message}`});
     }
+    
+    
+    
 }
 
 async function getEntryMedications(req,res){

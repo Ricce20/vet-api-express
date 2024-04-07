@@ -9,17 +9,16 @@ async function getMedicalHostories(req,res){
             history.toJSON = function(){
                 return{
                     ...this.toObject(),
-                    date: this.date.toLocaleDateString('es-ES', {
-                        day: '2-digit',
-                        month: '2-digit',
-                        year: 'numeric',
-                        hour: 'numeric',
-                        minute: 'numeric'
+                    date:this.date.toLocaleDateString('es-ES',{
+                        day:'2-digit',
+                        month:'2-digit',
+                        year:'numeric',
+                        hour:'numeric',
+                        minute:'numeric'
                     })
                 }
             }
-        });
-
+        })
         return res.status(200).json({histories});
     } catch (error) {
         return res.status(500).json({error:`Error encontrado: ${error.message}`});
@@ -29,24 +28,24 @@ async function getMedicalHostories(req,res){
 async function getIdHistory(req,res){
     try {
         const {id} = req.params;
-        let history = await  MedicalH.findById(id).populate({path:'petId',select:'details specie'}).populate({path:'vetId',select:'name lastName phone type state'});
-        
+        let history = await  MedicalH.findById(id).populate({path:'petId'}).populate({path:'vetId'});
+
         if(!history){
-            return res.status(404).json({message:'Registro no encotrado'});
+            return res.status(404).json({message:'Registro no encontrado'})
         }
+
         history.toJSON = function(){
             return{
                 ...this.toObject(),
-                date: this.date.toLocaleDateString('es-ES', {
-                    day: '2-digit',
-                    month: '2-digit',
-                    year: 'numeric',
-                    hour: 'numeric',
-                    minute: 'numeric'
+                date:this.date.toLocaleDateString('es-ES',{
+                    day:'2-digit',
+                    month:'2-digit',
+                    year:'numeric',
+                    hour:'numeric',
+                    minute:'numeric'
                 })
             }
         }
-        
         return res.status(200).json({history});
     } catch (error) {
         return error instanceof CastError
@@ -124,16 +123,16 @@ async function getMedicalH_PetId(req,res){
             history.toJSON = function(){
                 return{
                     ...this.toObject(),
-                    date: this.date.toLocaleDateString('es-ES', {
-                        day: '2-digit',
-                        month: '2-digit',
-                        year: 'numeric',
-                        hour: 'numeric',
-                        minute: 'numeric'
+                    date:this.date.toLocaleDateString('es-ES',{
+                        day:'2-digit',
+                        month:'2-digit',
+                        year:'numeric',
+                        hour:'numeric',
+                        minute:'numeric'
                     })
                 }
             }
-        });
+        })
 
         return res.status(200).json({histories});
     } catch (error) {

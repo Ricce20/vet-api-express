@@ -20,7 +20,7 @@ async function login(req,res){
             return res.status(401).json({message: "Credenciales Incorrectas"});
         }
         const {_id,rol} = usuario;
-
+        
         return res.status(200).json({user:{_id,rol,email}});
     } catch (error) {
         return res.status(500).json({error: `Error Encontrado: ${error.message}`});
@@ -35,10 +35,10 @@ async function loginEmployee(req, res) {
         if(!employee){
             return res.status(404).json({message:"No se Encontro un Empelado Relacionado al Usuario"});
         }
-        const {_id,name,lastName,type,image} = employee;
+        const {_id,name,lastName,type,img} = employee;
         const jwtoken = employee.generadorJWT();
 
-        return res.status(200).json({dataEmp: {_id,name,lastName,type,image,jwtoken}});
+        return res.status(200).json({dataEmp: {_id,name,lastName,type,img,jwtoken}});
     }catch (error) {
         return error instanceof CastError
         ? res.status(400).json({error:"El ID Proporcionada es inválido"})

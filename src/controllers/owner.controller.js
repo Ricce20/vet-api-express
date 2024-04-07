@@ -7,7 +7,7 @@ const Owner = require('../models/owner.model');
 //------------------------------------------------
 async function getOwners(req,res){
     try {
-        let owners = await Owner.find({state:'activo'}).select('_id name lastName image');
+        let owners = await Owner.find({state:'activo'}).populate('user', 'email').select('_id name lastName image phone ');
         return res.status(200).json({owners});
     } catch (error) {
         return res.status(500).json({error:`Error encontrado ${error.message}`});

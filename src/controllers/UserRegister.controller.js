@@ -54,7 +54,7 @@ async function RegisterEmployee(req,res){
     }
 }
 
-//REGISTER CUSTOMER-WONER----------------------
+//REGISTER CUSTOMER-OWNER----------------------
 
 async function RegisterOwner(req,res){
 

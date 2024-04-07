@@ -4,17 +4,17 @@ const {CastError} =require('mongoose');
 async function getConsults(req,res){
     try {
         let consults = await Consult.find().sort({date:-1}).populate({path:'petId', select:'details.name specie'}).populate({path:'vetId',select:'name lastName'});
-        
-        consults.forEach(consult => {
+
+        consults.forEach(consult=>{
             consult.toJSON = function(){
                 return{
                     ...this.toObject(),
-                    date:this.date.toLocaleDateString('es-ES', {
-                        day: '2-digit',
-                        month: '2-digit',
-                        year: 'numeric',
-                        hour: 'numeric',
-                        minute: 'numeric'
+                    date:this.date.toLocaleDateString('es-ES',{
+                        day:'2-digit',
+                        month:'2-digit',
+                        year:'numeric',
+                        hour:'numeric',
+                        minute:'numeric'
                     })
                 }
             }
@@ -29,22 +29,24 @@ async function getIdConsult(req,res){
     try {
         const {id} = req.params;
         let consult =  await  Consult.findById(id).populate({path:'petId',select:'details specie state'}).populate({path:'vetId',select:'name lastName  type  state'});
+
         if(!consult){
-            return res.status(404).json({message:'Consulta no Encontrada'});
+            return res.status(404).json({message:'Registro no encontrado'})
         }
         consult.toJSON = function(){
             return{
                 ...this.toObject(),
-                date:this.date.toLocaleDateString('es-ES', {
-                    day: '2-digit',
-                    month: '2-digit',
-                    year: 'numeric',
-                    hour: 'numeric',
-                    minute: 'numeric'
+                date:this.date.toLocaleDateString('es-ES',{
+                    day:'2-digit',
+                    month:'2-digit',
+                    year:'numeric',
+                    hour:'numeric',
+                    minute:'numeric'
                 })
             }
         }
         return res.status(200).json({consult});
+
     } catch (error) {
         return error instanceof CastError
         ? res.status(400).json({message:"El ID Proporcionado es Inválido"})
@@ -57,20 +59,22 @@ async function getConsultForPetId(req,res){
     try {
         const {id} = req.params;
         let consults = await  Consult.find({petId:id}).sort({date:-1}).populate({path:'vetId',select:'name lastName type'});
-        consults.forEach(consult => {
+        
+        consults.forEach(consult=>{
             consult.toJSON = function(){
                 return{
                     ...this.toObject(),
-                    date:this.date.toLocaleDateString('es-ES', {
-                        day: '2-digit',
-                        month: '2-digit',
-                        year: 'numeric',
-                        hour: 'numeric',
-                        minute: 'numeric'
+                    date:this.date.toLocaleDateString('es-ES',{
+                        day:'2-digit',
+                        month:'2-digit',
+                        year:'numeric',
+                        hour:'numeric',
+                        minute:'numeric'
                     })
                 }
             }
         })
+
         return res.status(200).json({consults});
     } catch (error) {
         return error instanceof CastError
@@ -82,7 +86,7 @@ async function getConsultForPetId(req,res){
 async function registerConsult(req,res){
     try {
         const {petId,vetId,nameVet,diagnosis,observations,signs,treatment} = req.body;
-
+        console.log(req.body);
         let newConsult = new Consult({
             petId,
             vetId,
@@ -129,8 +133,6 @@ async function editConsult(req,res){
        
     }
 }
-
-
 
 module.exports = {
     editConsult,

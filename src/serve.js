@@ -9,6 +9,7 @@ const UserRoute = require('./routes/usersRegister.routes');
 const AuthRoute = require('./routes/Auth.routes');
 const VetRouter = require('./routes/vet.routes');
 const OwnerRouter = require('./routes/owner.routes');
+const componentesRouter = require('./routes/componentes');
 
 //inicializacion-app
 const app = express();
@@ -47,7 +48,7 @@ app.use('/user',UserRoute);
 app.use('/auth',AuthRoute);
 app.use('/vet',VetRouter);
 app.use('/owner',OwnerRouter);
-
+app.use(componentesRouter);
 
 //EXPORTAMOS 
 module.exports = app;

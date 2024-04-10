@@ -8,7 +8,10 @@ const R_medicationSchema = z.object({
     quantity: z.string({required_error:'campo cantidad esta vacio'}).nonempty({message:'Campo quantity Esta vacio'}),
     image: z.string({required_error:'Imagen esta vacio'}).optional(),
     category:z.enum(['Antibiótico', 'Analgésico', 'Antiinflamatorio', 'Antiparasitario', 'Antifúngico', 'Antiviral', 'Otro']),
-    species: z.array(z.enum['Felinos', 'Caninos', 'Roedores', 'Aves']),
+    // species: z.array(z.enum['Felinos', 'Caninos', 'Roedores', 'Aves']),
+    
+    species: z.array(z.string()).nonempty({ message: 'Campo especie está vacío' }),
+
     dosageForm: z.enum(['Tableta', 'Cápsula', 'Líquido', 'Inyección', 'Tópico', 'Gotas', 'Polvo', 'Suspensión', 'Ungüento', 'Gel']),
     dosage: z.string({required_error:'Campo dosage es Requerido'}).nonempty({message:'Campo dosage Esta Vacio'}),
     administrationRoute: z.enum(['Oral', 'Intravenoso', 'Intramuscular', 'Subcutáneo', 'Tópico', 'Rectal', 'Oftálmico', 'Ótico']),
@@ -24,7 +27,8 @@ const U_medicationSchema = z.object({
     quantity: z.string({ required_error: 'campo cantidad esta vacio' }).nonempty({ message: 'Campo quantity Esta vacio' }).optional(),
     image: z.string({ required_error: 'Imagen esta vacio' }).optional(),
     category:z.enum(['Antibiótico', 'Analgésico', 'Antiinflamatorio', 'Antiparasitario', 'Antifúngico', 'Antiviral', 'Otro']).optional(),
-    species: z.array(z.enum['Felinos', 'Caninos', 'Roedores', 'Aves']).optional(),
+    // species: z.array(z.enum['Felinos', 'Caninos', 'Roedores', 'Aves']).optional(),
+    species: z.array(z.string()).nonempty({ message: 'Campo especie está vacío' }),
     dosageForm: z.enum(['Tableta', 'Cápsula', 'Líquido', 'Inyección', 'Tópico', 'Gotas', 'Polvo', 'Suspensión', 'Ungüento', 'Gel']).optional(),
     dosage: z.string({ required_error: 'Campo dosage es Requerido' }).nonempty({ message: 'Campo dosage Esta Vacio' }).optional(),
     administrationRoute: z.enum(['Oral', 'Intravenoso', 'Intramuscular', 'Subcutáneo', 'Tópico', 'Rectal', 'Oftálmico', 'Ótico']).optional(),

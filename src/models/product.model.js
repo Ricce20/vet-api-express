@@ -41,7 +41,7 @@ const productSchema = new mongoose.Schema({
 
 //METHOSD
 productSchema.methods.setimgurl = function setimgurl(imagen){
-    this.image = "hhttps://vet-api-express.onrender.com/foto-prod/" + imagen;
+    this.image = "https://vet-api-express.onrender.com/foto-prod/" + imagen;
 }
 productSchema.methods.setimgurl2 = function setimgurl2(imagen){
     this.image2 = "https://vet-api-express.onrender.com/foto-prod/" + imagen;

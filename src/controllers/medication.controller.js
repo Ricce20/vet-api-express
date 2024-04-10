@@ -11,21 +11,42 @@ const MedicalEntry = require('../models/medicalEntries.model');
 async function getMedicines(req,res){
     try {
         let medicines = await Medication.find({state:'activo'}).select('_id medication description image quantity price details.dosage details.dateExpiry details.precautions details.dosageForm details.administrationRoute category species');
-
+        
+        medicines = medicines.map(medicine => {
+            const medicineObject = medicine.toObject();
+            medicineObject.details.dateExpiry = medicine.details.dateExpiry.toLocaleDateString('es-ES', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            });
+            return medicineObject;
+        });
         return res.status(200).json({medicines});
     } catch (error) {
         return res.status(500).json({error:`Error Encontrado: ${error.message}`});
     }
-}
+} 
 
 async function getIdMedicine(req,res){
     try {
         const {id} = req.params;
 
         let medicine = await Medication.findById(id);
-        return !medicine 
-        ? res.status(404).json({message:'Medicamento no encontrado'})
-        : res.status(200).json({medicine});
+        
+        if(!medicine){
+            return res.status(404).json({message:'Medicamento no encontrado'})
+        }
+        medicine.toJSON = function(){
+            return{
+                ...this.toObject(),
+                dateExpiry: this.details.dateExpiry.toLocaleDateString('es-ES',{
+                    day:'2-digit',
+                    month:'2-digit',
+                    year:'numeric'
+                })
+            }
+        }
+        return res.status(200).json({medicine});
     }catch (error) {
         return error instanceof CastError
         ? res.status(400).json({error:"El ID del Medicamento  proporcionada es inválido"})
@@ -50,8 +71,9 @@ async function registerMedicine(req,res){
                 species,
                 category,
                 price,
-                quantity
-            });
+                quantity,
+                image:'http://localhost:3000/foto-prod/default.jpg'
+                        });
 
             if(req.file){
                 const {filename} = req.file;

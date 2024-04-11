@@ -28,7 +28,7 @@ const U_medicationSchema = z.object({
     image: z.string({ required_error: 'Imagen esta vacio' }).optional(),
     category:z.enum(['Antibiótico', 'Analgésico', 'Antiinflamatorio', 'Antiparasitario', 'Antifúngico', 'Antiviral', 'Otro']).optional(),
     // species: z.array(z.enum['Felinos', 'Caninos', 'Roedores', 'Aves']).optional(),
-    species: z.array(z.string()).nonempty({ message: 'Campo especie está vacío' }),
+    species: z.array(z.string()).optional(),
     dosageForm: z.enum(['Tableta', 'Cápsula', 'Líquido', 'Inyección', 'Tópico', 'Gotas', 'Polvo', 'Suspensión', 'Ungüento', 'Gel']).optional(),
     dosage: z.string({ required_error: 'Campo dosage es Requerido' }).nonempty({ message: 'Campo dosage Esta Vacio' }).optional(),
     administrationRoute: z.enum(['Oral', 'Intravenoso', 'Intramuscular', 'Subcutáneo', 'Tópico', 'Rectal', 'Oftálmico', 'Ótico']).optional(),
